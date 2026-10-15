@@ -57,7 +57,7 @@ YouTube and Netflix get site-specific skip; on other sites F7/F9 jump 10 seconds
    - Chrome, Edge, Brave, Arc: the app copies the extension to a folder; load it from `chrome://extensions` › Developer mode › **Load unpacked**.
    - Safari: the extension is inside the app. Without notarization Safari only lists it after **Settings › Developer › Allow unsigned extensions**, which resets when Safari quits. Until then, Safari tabs work through **Develop › Allow JavaScript from Apple Events**.
 
-Requires macOS 14 Sonoma or later. Apple Silicon and Intel. English and Korean.
+Requires macOS 14 Sonoma or later. Apple Silicon and Intel. English, Korean, Japanese, Simplified and Traditional Chinese.
 
 ## Troubleshooting
 

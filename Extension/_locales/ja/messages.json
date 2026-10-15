@@ -1,0 +1,8 @@
+{
+  "name": {
+    "message": "MediaPicker Bridge"
+  },
+  "description": {
+    "message": "MediaPicker の Mac アプリがタブのメディアを再生・停止できるように接続します。"
+  }
+}
