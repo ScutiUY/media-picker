@@ -3,7 +3,7 @@ import SafariServices
 import ServiceManagement
 
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    static let safariExtensionID = "io.github.dot2horizon.mediapicker.safari"
+    static let safariExtensionID = "io.github.scutiuy.mediapicker.safari"
     private let bridge = BridgeServer()
     private lazy var controller = MediaController(bridge: bridge)
     private let tap = MediaKeyTap()

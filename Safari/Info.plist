@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleIdentifier</key>
-    <string>io.github.dot2horizon.mediapicker.safari</string>
+    <string>io.github.scutiuy.mediapicker.safari</string>
     <key>CFBundleName</key>
     <string>MediaPicker Bridge</string>
     <key>CFBundleDisplayName</key>

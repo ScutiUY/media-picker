@@ -10,7 +10,7 @@
         <string>ko</string>
     </array>
     <key>CFBundleIdentifier</key>
-    <string>io.github.dot2horizon.mediapicker</string>
+    <string>io.github.scutiuy.mediapicker</string>
     <key>CFBundleName</key>
     <string>MediaPicker</string>
     <key>CFBundleDisplayName</key>
