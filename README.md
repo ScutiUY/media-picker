@@ -1,3 +1,5 @@
+<img src="docs/icon.png" width="96" alt="MediaPicker icon">
+
 # MediaPicker
 
 **Hold F8 to choose what plays.**

@@ -133,9 +133,9 @@ private struct OnboardingView: View {
 
     private var welcome: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Image(systemName: "playpause.fill")
-                .font(.system(size: 40))
-                .foregroundStyle(.tint)
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .frame(width: 72, height: 72)
             Text(L("Hold F8 to choose what plays"))
                 .font(.title.bold())
             Text(L("A paused YouTube tab won't steal the play key anymore. MediaPicker sends the media keys where you meant, and lets you switch players without taking your hand off the keyboard."))

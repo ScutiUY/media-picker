@@ -8,6 +8,8 @@
 	<string>MediaPicker</string>
 	<key>CFBundleExecutable</key>
 	<string>MediaPicker</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>io.github.scutiuy.mediapicker</string>
 	<key>CFBundleLocalizations</key>

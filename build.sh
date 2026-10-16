@@ -16,12 +16,14 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN/MediaPicker" "$APP/Contents/MacOS/"
 cp Resources/Info.plist "$APP/Contents/"
 cp -R Resources/*.lproj "$APP/Contents/Resources/"
+cp Resources/AppIcon.icns "$APP/Contents/Resources/"
 cp -R Extension "$APP/Contents/Resources/"
 
 # 사파리 웹 확장(.appex): 같은 확장 파일을 앱 안의 PlugIns에 넣는다.
 APPEX="$APP/Contents/PlugIns/MediaPickerSafari.appex"
 mkdir -p "$APPEX/Contents/MacOS" "$APPEX/Contents/Resources"
 cp Safari/Info.plist "$APPEX/Contents/"
+cp Resources/AppIcon.icns "$APPEX/Contents/Resources/"
 cp -R Extension/ "$APPEX/Contents/Resources/"
 SLICES=()
 for arch in $ARCHS; do

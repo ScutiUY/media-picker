@@ -1,3 +1,5 @@
+<img src="docs/icon.png" width="96" alt="MediaPicker 아이콘">
+
 # MediaPicker
 
 **F8을 길게 눌러 재생할 것을 고릅니다.**
