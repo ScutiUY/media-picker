@@ -17,13 +17,9 @@ MediaPicker takes over the media keys so ▶︎ goes where you meant, and lets y
 
 **F8 hold** opens a small picker listing everything that can play right now:
 
-```
- Choose what to play
- ▶︎  The Less I Know the Better     Spotify · Tame Impala       ▮▮▮▮▮▮▯▯▯▯ 60%
- ❚❚  Lofi beats to study to         Chrome · youtube.com        ▮▮▮▮▮▮▮▮▯▯ 80%
- ❚❚  Episode 12                     Safari · netflix.com        ▮▮▮▮▮▮▮▮▮▮ 100%
- F8 tap: next · hold: play/pause · F7·F9 skip · F10–F12 volume
-```
+<img src="docs/picker.png" width="450" alt="MediaPicker picker">
+
+<sub>The picker follows your macOS language (shown in Korean).</sub>
 
 Keep your hand where it is: tap F8 to move down the list, hold F8 to play the highlighted item. Everything else pauses.
 

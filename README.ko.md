@@ -17,13 +17,7 @@ MediaPicker는 미디어키를 대신 받아서 ▶︎가 의도한 곳으로 �
 
 **F8 길게**는 지금 재생할 수 있는 것을 모두 보여 주는 작은 선택 창을 엽니다.
 
-```
- 재생할 미디어 선택
- ▶︎  The Less I Know the Better     Spotify · Tame Impala       ▮▮▮▮▮▮▯▯▯▯ 60%
- ❚❚  Lofi beats to study to         Chrome · youtube.com        ▮▮▮▮▮▮▮▮▯▯ 80%
- ❚❚  Episode 12                     Safari · netflix.com        ▮▮▮▮▮▮▮▮▮▮ 100%
- F8 짧게 이동 · 길게 재생/정지 · F7·F9 이전·다음 · F10·F11·F12 볼륨
-```
+<img src="docs/picker.png" width="450" alt="MediaPicker 선택 창">
 
 손은 그대로 두고 F8을 짧게 눌러 아래로 이동하고, 길게 눌러 강조된 항목을 재생합니다. 나머지는 모두 멈춥니다.
 
