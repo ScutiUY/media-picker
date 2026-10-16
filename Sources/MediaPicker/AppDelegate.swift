@@ -8,6 +8,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private lazy var controller = MediaController(bridge: bridge)
     private let tap = MediaKeyTap()
     private lazy var picker = PickerController(controller: controller)
+    private lazy var onboarding = OnboardingController(actions: .init(
+        requestAccessibility: { [weak self] in self?.requestAccessibility() },
+        installChromium: { [weak self] in self?.installChromiumExtension() },
+        openSafari: { [weak self] in self?.openSafariExtension() },
+        connectedBrowsers: { [weak self] in self?.bridge.connectedBrowsers.sorted() ?? [] },
+        launchAtLogin: { SMAppService.mainApp.status == .enabled },
+        setLaunchAtLogin: { [weak self] on in self?.setLaunchAtLogin(on) }
+    ))
     private var statusItem: NSStatusItem!
     private var statusLine: NSMenuItem!
     private var loginItem: NSMenuItem!
@@ -25,6 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         bridge.start()
         controller.startPolling()
         tap.interceptVolume = { [weak self] in self?.picker.isOpen ?? false }
+        picker.onShow = { [weak self] in self?.onboarding.pickerDidShow() }
         tap.onDown = { [weak self] key, isRepeat in
             guard let self else { return }
             switch key {
@@ -41,7 +50,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         tap.onUp = { [weak self] key in
             if key == .playPause { self?.keyUp() }
         }
-        startTap()
+        // 첫 실행이면 안내 화면이 권한 요청을 맡는다(시스템 창이 먼저 튀어나오지 않게).
+        let firstRun = !OnboardingController.isDone
+        startTap(prompt: !firstRun)
+        if firstRun { onboarding.show() }
     }
 
     // MARK: - F8
@@ -91,9 +103,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     // MARK: - 권한
 
-    private func startTap() {
-        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
-        _ = AXIsProcessTrustedWithOptions(options)
+    private func startTap(prompt: Bool) {
+        if prompt { promptAccessibility() }
         if tap.start() {
             Log.write("event tap ready")
             updateStatusIcon()
@@ -110,6 +121,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
+    /// 시스템 권한 창을 띄우고 손쉬운 사용 목록에 이 앱을 올린다.
+    private func promptAccessibility() {
+        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
+        _ = AXIsProcessTrustedWithOptions(options)
+    }
+
+    private func requestAccessibility() {
+        promptAccessibility()
+        openAccessibility()
+    }
+
     // MARK: - 메뉴바
 
     private func setupStatusItem() {
@@ -123,6 +145,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(.separator())
         menu.addItem(withTitle: L("Open Picker"), action: #selector(openPicker), keyEquivalent: "p").target = self
         menu.addItem(withTitle: L("Install Browser Extension…"), action: #selector(installExtension), keyEquivalent: "").target = self
+        menu.addItem(withTitle: L("Setup Guide…"), action: #selector(openOnboarding), keyEquivalent: "").target = self
         loginItem = menu.addItem(withTitle: L("Launch at Login"), action: #selector(toggleLogin), keyEquivalent: "")
         loginItem.target = self
         menu.addItem(.separator())
@@ -203,12 +226,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         alert.runModal()
     }
 
+    @objc private func openOnboarding() {
+        DispatchQueue.main.async { self.onboarding.show() }
+    }
+
     @objc private func toggleLogin() {
+        setLaunchAtLogin(SMAppService.mainApp.status != .enabled)
+    }
+
+    private func setLaunchAtLogin(_ on: Bool) {
         do {
-            if SMAppService.mainApp.status == .enabled {
-                try SMAppService.mainApp.unregister()
-            } else {
+            if on {
                 try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
             }
         } catch {
             Log.write("login item failed \(error)")

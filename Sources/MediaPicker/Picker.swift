@@ -30,6 +30,8 @@ final class PickerController: NSObject, NSWindowDelegate {
     private var lastVolumeSend = Date.distantPast
 
     var isOpen: Bool { panel?.isVisible ?? false }
+    /// 선택 창이 열릴 때 (첫 실행 안내의 '직접 해 보기' 확인용)
+    var onShow: (() -> Void)?
 
     init(controller: MediaController) {
         self.controller = controller
@@ -45,6 +47,7 @@ final class PickerController: NSObject, NSWindowDelegate {
         self.panel = panel
         relayout()
         panel.makeKeyAndOrderFront(nil)
+        onShow?()
 
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             self?.handleKey(event) == true ? nil : event
