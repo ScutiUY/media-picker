@@ -42,6 +42,8 @@ final class BridgeServer {
     func start() {
         let ws = NWProtocolWebSocket.Options()
         ws.autoReplyPing = true
+        // 탭 목록 하나가 이보다 클 일은 없다. 비정상적으로 큰 메시지로 메모리를 채우지 못하게 막는다.
+        ws.maximumMessageSize = 1 << 20
         // 웹페이지가 localhost로 붙는 것을 막는다: 확장 출처만 받는다.
         ws.setClientRequestHandler(queue) { _, headers in
             let origin = headers.first { $0.name.lowercased() == "origin" }?.value ?? ""

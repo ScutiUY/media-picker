@@ -181,13 +181,17 @@ enum PageJS {
 }
 
 /// 스캔 스크립트 출력 한 줄: 창id \t 탭키 \t URL \t 상태|볼륨|제목
-private func parseTabLines(_ output: String) -> [(window: String, tab: String, url: String, state: PlayState, volume: Int?, title: String)] {
+///
+/// 보안: 상태 부분은 웹페이지 안에서 실행한 JS의 결과라서 페이지가 마음대로 꾸밀 수 있다
+/// (줄바꿈·탭을 넣어 가짜 줄을 만드는 것까지). 창id·탭키는 AppleScript에 그대로 들어가므로
+/// 반드시 정수로 검사한다. 정수가 아니면 그 줄은 버린다.
+private func parseTabLines(_ output: String) -> [(window: Int, tab: Int, url: String, state: PlayState, volume: Int?, title: String)] {
     output.split(separator: "\n").compactMap { line in
         let cols = line.split(separator: "\t", maxSplits: 3, omittingEmptySubsequences: false).map(String.init)
-        guard cols.count == 4 else { return nil }
+        guard cols.count == 4, let window = Int(cols[0]), let tab = Int(cols[1]) else { return nil }
         let probe = cols[3].split(separator: "|", maxSplits: 2, omittingEmptySubsequences: false).map(String.init)
         guard probe.count == 3 else { return nil }
-        return (cols[0], cols[1], cols[2], probe[0] == "playing" ? .playing : .paused, Int(probe[1]), probe[2])
+        return (window, tab, cols[2], probe[0] == "playing" ? .playing : .paused, Int(probe[1]), probe[2])
     }
 }
 

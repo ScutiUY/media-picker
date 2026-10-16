@@ -11,9 +11,15 @@ enum Log {
         return f
     }()
 
+    /// 이보다 커지면 처음부터 다시 쓴다.
+    private static let maxSize = 1 << 20
+
     static func write(_ message: String) {
         let line = "\(formatter.string(from: Date())) \(message)\n"
         queue.async {
+            if let size = try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int, size > maxSize {
+                try? FileManager.default.removeItem(at: url)
+            }
             guard let data = line.data(using: .utf8) else { return }
             if let handle = try? FileHandle(forWritingTo: url) {
                 handle.seekToEndOfFile()

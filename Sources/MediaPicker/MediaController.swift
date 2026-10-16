@@ -62,7 +62,7 @@ final class MediaController {
         result.items += soundingApps.scan(excluding: handled)
         if let playing = result.items.first(where: { $0.state == .playing }), playing.id != lastTarget {
             lastTarget = playing.id
-            Log.write("now playing: \(playing.id) \(playing.title)")
+            Log.write("now playing: \(playing.id)")
         }
         let elapsed = Date().timeIntervalSince(start)
         let warnings = result.warnings
